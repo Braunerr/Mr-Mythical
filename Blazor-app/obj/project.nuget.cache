@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yqBeYdDmEyikPu27Oh8H1f9I2fqTaqMBZ51cfZt1JfK+re68GdewEF7Sj6taLagrTNvPB7ncXxfC19srOxFz7w==",
+  "dgSpecHash": "u555bqif6OyXbr2EkI2KjpvyU3zIX1alBhZTXEYDh6F1BN3bTY3cPUabOKHsN+ahsoUB2pWeTcK7gSyKxqxydA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mathi\\source\\repos\\blazor-mrmythical\\blazor-mrmythical.csproj",
+  "projectFilePath": "C:\\Users\\mathi\\source\\repos\\blazor-mrmythical\\Blazor-app\\blazor-mrmythical.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mathi\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.5\\microsoft.aspnetcore.authorization.6.0.5.nupkg.sha512",
     "C:\\Users\\mathi\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.5\\microsoft.aspnetcore.components.6.0.5.nupkg.sha512",

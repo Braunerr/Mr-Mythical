@@ -196,13 +196,15 @@
       "mscorlib.dll": "sha256-ghlJNtzzYlKIliGPuf0A0Yu6dmLycSx3F9uyeddFb\/g=",
       "netstandard.dll": "sha256-qpOz\/RBwhlIYfaE2GDEmjiproxkvSf2b9GeqHxvH+lg=",
       "System.Private.CoreLib.dll": "sha256-sfzSZ3YKC2rpF77TVOKLuPgQag93QXr9U4AUc9d\/LKA=",
-      "blazor-mrmythical.dll": "sha256-r8nbwaj\/Ucf3Rzw3ZLDP8RdDoaKwQ7N5N0q4Ij+LSY0="
+      "shared.dll": "sha256-ntpTL9WRP7rb3+kyOk9su9EUO+wdPTm8QALfOnhMyyw=",
+      "blazor-mrmythical.dll": "sha256-gqZAHDZkcuuRPjBpiZZi2leadj+Kl40tkvoh\/55JrpA="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "blazor-mrmythical.pdb": "sha256-UkWvlCBl4i1z2HC7h+CkcezauO4flzJ0lgL7ZXXuTnk="
+      "shared.pdb": "sha256-bFSejHB74hK1j799vsWvG+XDxdDuXdgE1nbWvBb0kFE=",
+      "blazor-mrmythical.pdb": "sha256-d\/Tf3JmbgcbFnw\/wRbjyvJ5vd6isRJtMy2n5wca75yo="
     },
     "runtime": {
       "dotnet.6.0.5.4f4v5w84mh.js": "sha256-783uOt0jgblQfP6Yz5TJeuW2xxtl6UHZQPngZtCz79U=",
