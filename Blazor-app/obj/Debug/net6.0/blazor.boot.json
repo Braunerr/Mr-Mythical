@@ -1,6 +1,9 @@
 {
   "cacheBootResources": true,
-  "config": [ ],
+  "config": [
+    "appsettings.Development.json",
+    "appsettings.json"
+  ],
   "debugBuild": true,
   "entryAssembly": "blazor-mrmythical",
   "icuDataMode": 0,
@@ -196,15 +199,15 @@
       "mscorlib.dll": "sha256-ghlJNtzzYlKIliGPuf0A0Yu6dmLycSx3F9uyeddFb\/g=",
       "netstandard.dll": "sha256-qpOz\/RBwhlIYfaE2GDEmjiproxkvSf2b9GeqHxvH+lg=",
       "System.Private.CoreLib.dll": "sha256-sfzSZ3YKC2rpF77TVOKLuPgQag93QXr9U4AUc9d\/LKA=",
-      "shared.dll": "sha256-ntpTL9WRP7rb3+kyOk9su9EUO+wdPTm8QALfOnhMyyw=",
-      "blazor-mrmythical.dll": "sha256-gqZAHDZkcuuRPjBpiZZi2leadj+Kl40tkvoh\/55JrpA="
+      "shared.dll": "sha256-R2gRGOTpOA7IoqKudN65D2o\/eq7szoN8Vin1pTfAfYY=",
+      "blazor-mrmythical.dll": "sha256-rS0UJj7jEFg3Q3MAaGxyKoGgr7NezDuSRNpFgBGHaAI="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "shared.pdb": "sha256-bFSejHB74hK1j799vsWvG+XDxdDuXdgE1nbWvBb0kFE=",
-      "blazor-mrmythical.pdb": "sha256-d\/Tf3JmbgcbFnw\/wRbjyvJ5vd6isRJtMy2n5wca75yo="
+      "shared.pdb": "sha256-wKM42VLsBf\/JQW8P+34297gxbY0\/6TndX7YLslJv+7I=",
+      "blazor-mrmythical.pdb": "sha256-LsPEAI96pwG+9D4F1NoghNkROm99iG32Qg30u\/ORo3s="
     },
     "runtime": {
       "dotnet.6.0.5.4f4v5w84mh.js": "sha256-783uOt0jgblQfP6Yz5TJeuW2xxtl6UHZQPngZtCz79U=",

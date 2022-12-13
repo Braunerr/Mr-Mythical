@@ -7,9 +7,10 @@ namespace shared.Model
     {
         public DbSet<Ability> Abilities => Set<Ability>();
         public DbSet<Boss> Bosses => Set<Boss>();
-        public DbSet<Spell> Spells => Set<Spell>();      
+        public DbSet<Spell> Spells => Set<Spell>();
         public DbSet<Raid> Raids => Set<Raid>();
-        public DbSet<GameClass> GameClasses => Set<GameClass>();  
+        public DbSet<GameClass> GameClasses => Set<GameClass>();
+        public DbSet<Player> Players => Set<Player>();
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

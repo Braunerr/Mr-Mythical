@@ -1,0 +1,90 @@
+﻿@page "/healing"
+
+@using blazor_mrmythical.Data;
+@inject ApiService apiService
+@using shared.Model;
+
+<PageTitle>Mr. Mythical</PageTitle>
+
+@if (gameClasses == null)
+{
+    <h1>Loading Data..</h1>
+}
+else
+{
+    <br>
+    <div id="healing-table">
+        <table>
+            <tr>
+                <th>Time</th>
+                <th>Ability</th>
+                <th>Player</th>
+                <th>Cooldown</th>
+                <th>Note</th>
+            </tr>
+            <tr>
+                <td><input type="time" name="time"></td>
+                <td><select name="ability">
+                    <option value="smash">Smash</option>
+                    <option value="hulk">Hulk</option>
+                </select></td>
+                <td><select name="player">
+                    @foreach (var classes in gameClasses)
+                    {
+                        <option value="@classes.GameClassId">@classes.GameClassName</option>
+                    }
+                </select></td>
+                <td><div class="dropdown">
+                    <a href="" class="dropbtn" data-game="wow" data-type="spell" data-wowhead="spell=@spellId" @onclick:preventDefault><span>@spellName</span></a>
+                    <div class="dropdown-content">
+                        <a href="" data-game="wow" data-type="spell" data-wowhead="spell=64843" @onclick="@(()=>ChangeSpell(64843, "Divine Hymn"))" @onclick:preventDefault><span>Divine Hymn</span></a>
+                        <a href="" data-game="wow" data-type="spell" data-wowhead="spell=265202" @onclick="@(()=>ChangeSpell(265202, "Salvation"))" @onclick:preventDefault><span>Salvation</span></a>
+                    </div>
+                    </div>
+                </td>
+                <td>assa</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <input @bind="playerName" @bind:event="oninput"  onkeypress="return event.keyCode!=13" type="text" name="Name Input" placeholder="Type Player Name" />
+        <select name="player" @bind="@gameClassId">
+        @foreach (var classes in gameClasses)
+        {
+            <option value="@classes.GameClassId">@classes.GameClassName</option>
+        }
+        </select>
+        <button class="primary" @onclick="CreatePlayer">Add Player</button>
+    </div>
+
+    <p>@gameClassId</p>
+}
+
+                    
+
+
+@code {
+    private int spellId;
+    private string spellName = "Spell";
+
+    private void ChangeSpell(int SpellId, string SpellName) {
+        spellId = SpellId;
+        spellName = SpellName;
+    }
+
+    private GameClass[]? gameClasses;
+    private string playerName;
+    private int gameClassId;
+
+    protected override async Task OnInitializedAsync() {
+        gameClasses = await apiService.GetGameClasses();
+    }
+
+    private async void CreatePlayer(){
+        if (playerName == null) {
+            return; // Browser error message maybe
+        }
+        await apiService.CreatePlayer(playerName, gameClassId);
+    }
+
+}

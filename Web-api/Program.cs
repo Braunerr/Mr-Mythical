@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.Json;
 
-using shared.Model;
 using Service;
+using shared.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +63,22 @@ app.Use(
     {
         context.Response.ContentType = "application/json; charset=utf-8";
         await next(context);
+    }
+);
+
+app.MapGet(
+    "/api/healing/",
+    (DataService service) =>
+    {
+        return service.GetGameClasses();
+    }
+);
+
+app.MapPost(
+    "/api/player",
+    (DataService service, Player_DTO dto) =>
+    {
+        return service.CreatePlayer(dto.playerName, dto.gameClassId);
     }
 );
 

@@ -11,41 +11,37 @@ build_property.EnableTrimAnalyzer = true
 build_property.IncludeAllContentForSelfExtract = 
 build_property.RootNamespace = blazor-mrmythical
 build_property.RootNamespace = blazor-mrmythical
-build_property.ProjectDir = C:\Users\mathi\source\repos\blazor-mrmythical\Blazor-app\
+build_property.ProjectDir = c:\Users\mathi\source\repos\blazor-mrmythical\Blazor-app\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\mathi\source\repos\blazor-mrmythical\Blazor-app
+build_property.MSBuildProjectDirectory = c:\Users\mathi\source\repos\blazor-mrmythical\Blazor-app
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/App.razor]
+[c:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[c:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Pages/Healing.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGVhbGluZy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Pages/Index.razor]
+[c:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Shared/SurveyPrompt.razor]
-build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+[c:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Pages/M+ Score Calculator.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTSsgU2NvcmUgQ2FsY3VsYXRvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/_Imports.razor]
+[c:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Shared/MainLayout.razor]
+[c:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ztuokyogef
 
-[C:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Shared/NavMenu.razor]
+[c:/Users/mathi/source/repos/blazor-mrmythical/Blazor-app/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-4cuxg686nl

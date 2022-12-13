@@ -90,4 +90,18 @@ public class DataService
             db.SaveChanges();
         }
     }
+
+    public List<GameClass> GetGameClasses()
+    {
+        return db.GameClasses.ToList();
+    }
+
+    public Player CreatePlayer(string playerName, int gameClassId)
+    {
+        GameClass gameClass = db.GameClasses.FirstOrDefault(a => a.GameClassId == gameClassId);
+        db.Players.Add(new Player { PlayerName = playerName, GameClass = gameClass });
+        db.SaveChanges();
+
+        return null!;
+    }
 }

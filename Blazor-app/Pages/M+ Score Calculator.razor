@@ -1,0 +1,330 @@
+﻿@page "/score"
+
+<PageTitle>Mr. Mythical</PageTitle>
+
+<br />
+<br />
+<div class="row">
+    <div id="dungeons">
+        <h1>Score Target:</h1>
+        <input @bind="scoreGoal" @bind:event="oninput" @onkeyup="@(()=>calculateScore())"
+            onkeypress="return event.keyCode!=13" type="text" name="scoreGoal" placeholder="Input Score" />
+        <br />
+        <br />
+        <button class="primary" @onclick="showHide">Manual Edit</button>
+        <br />
+        <br />
+        <table>
+            <tr>
+                <th width="40%">Keystone</th>
+                <th width="20%" class="right">Fortified</th>
+                <th width="20%" class="right">Tyranical</th>
+                <th width="20%" class="right">Rating</th>
+            </tr>
+            @foreach (var key in keys)
+            {
+                <tr class="line">
+                    <td>@(key + 1)</td>
+                    <td class="right">+@fortified[key]
+                        @if (show)
+                        {
+                            <button class="arrow" @onclick="@(()=>editKey(key, fortified, true))">&#708;</button> <button
+                        class="arrow" @onclick="@(()=>editKey(key, fortified, false))">&#709;</button>
+                        }
+                    </td>
+                    <td class="right">+@tyranical[key]
+                        @if (show)
+                        {
+                            <button class="arrow" @onclick="@(()=>editKey(key, tyranical, true))">&#708;</button> <button
+                        class="arrow" @onclick="@(()=>editKey(key, tyranical, false))">&#709;</button>
+                        }
+                    </td>
+                    <td class="right">@score[key]</td>
+                </tr>
+            }
+            <tr>
+                <td>Total Score</td>
+                <td class="right"></td>
+                <td class="right"></td>
+                <td class="right">@totalScore</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@code {
+    private bool show = false;
+    private void showHide()
+    {
+        show = !show;
+    }
+
+    private double scoreGoal;
+    private double totalScore;
+
+    private static int dungeonCount = 8;
+    private double scorePerDungeon;
+
+    private int[] keys = new int[] {
+0, 1, 2, 3, 4, 5, 6, 7
+};
+
+
+    private double[] score = new double[dungeonCount];
+
+    private int[] fortified = new int[dungeonCount];
+    private int[] tyranical = new int[dungeonCount];
+
+    private double bestAndAlternate;
+
+    private static double scoreFormula(int keyLevel)
+    {
+        double baseScore;
+        if (keyLevel < 4)
+        {
+            baseScore = ((6 + keyLevel) * 5);
+            return baseScore;
+        }
+        else if (keyLevel < 7)
+        {
+            baseScore = ((7 + keyLevel) * 5);
+            return baseScore;
+        }
+        else if (keyLevel < 10)
+        {
+            baseScore = ((8 + keyLevel) * 5);
+            return baseScore;
+        }
+        else
+        {
+            baseScore = (((keyLevel - 10) * 7) + 100);
+            return baseScore;
+        }
+    }
+
+    private void calculateScore()
+    {
+        for (var i = 0; i < dungeonCount; i++)
+        {
+            score[i] = 0;
+            tyranical[i] = 0;
+            fortified[i] = 0;
+        }
+        totalScore = 0;
+        scorePerDungeon = scoreGoal / dungeonCount;
+
+        if (scoreGoal >= 640)
+        {
+            for (var i = 0; i < 50; i++)
+            {
+
+
+                bestAndAlternate = Math.Round(scoreFormula(i) * 1.5 + scoreFormula(i) * 0.5);
+
+                if (scorePerDungeon == bestAndAlternate)
+                {
+                    for (var j = 0; j < dungeonCount; j++)
+                    {
+                        fortified[j] = i;
+                        tyranical[j] = i;
+
+                        score[j] = bestAndAlternate;
+                    }
+                    break;
+                }
+                else if (bestAndAlternate > scorePerDungeon)
+                {
+                    bestAndAlternate = Math.Round(scoreFormula(i - 1) * 1.5 + scoreFormula(i - 1) * 0.5);
+                    var scoreDiff = Math.Round(scoreGoal - bestAndAlternate * dungeonCount);
+
+                    for (var j = 0; j < dungeonCount; j++)
+                    {
+                        if (scoreDiff > 0)
+                        {
+                            scoreDiff -= (scoreFormula(i) * 1.5) - (scoreFormula(i - 1) * 1.5);
+                            fortified[j] = i;
+                            score[j] += scoreFormula(i) * 1.5;
+                        }
+                        else
+                        {
+                            fortified[j] = i - 1;
+                            score[j] = scoreFormula(i - 1) * 1.5;
+                        }
+                    }
+                    for (var j = 0; j < dungeonCount; j++)
+                    {
+                        if (scoreDiff > 0)
+                        {
+                            scoreDiff -= (scoreFormula(i) * 0.5) - (scoreFormula(i - 1) * 0.5);
+                            tyranical[j] = i;
+                            score[j] += Math.Round((scoreFormula(i) * 0.5) * 10) / 10;
+                        }
+                        else if (scoreDiff / ((scoreFormula(i) * 0.5) - (scoreFormula(i - 1) * 0.5)) <= j - dungeonCount)
+                        {
+                            if (i != 3)
+                            {
+                                scoreDiff += (scoreFormula(i) * 0.5) - (scoreFormula(i - 1) * 0.5);
+                                tyranical[j] = i - 2;
+                                score[j] += Math.Round((scoreFormula(i - 2) * 0.5) * 10) / 10;
+                            }
+                            else
+                            {
+                                tyranical[j] = i - 1;
+                                score[j] += Math.Round((scoreFormula(i - 1) * 0.5) * 10) / 10;
+                            }
+                        }
+                        else
+                        {
+                            tyranical[j] = i - 1;
+                            score[j] += Math.Round((scoreFormula(i - 1) * 0.5) * 10) / 10;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            var tempScore = scoreGoal;
+            for (var i = 0; i < dungeonCount; i++)
+            {
+                if (tempScore > 0)
+                {
+                    tempScore -= 60;
+                    fortified[i] = 2;
+                    score[i] += 60;
+                }
+                if (tempScore > 0)
+                {
+                    tempScore -= 20;
+                    tyranical[i] = 2;
+                    score[i] += 20;
+                }
+            }
+
+        }
+        for (var i = 0; i < dungeonCount; i++)
+        {
+            totalScore += score[i];
+        }
+    }
+
+    private void editKey(int key, int[] affix, bool up)
+    {
+        totalScore = 0;
+        // When keys are below or equal to 2
+        if (affix[key] < 2)
+        {
+            if (up && affix == fortified)
+            {
+                fortified[key] += 2;
+                if (fortified[key] > tyranical[key])
+                {
+                    score[key] += 60;
+                }
+                else if (fortified[key] <= tyranical[key])
+                {
+                    score[key] += 20;
+                }
+            }
+            else if (up && affix == tyranical)
+            {
+                tyranical[key] += 2;
+                if (fortified[key] < tyranical[key])
+                {
+                    score[key] += 60;
+                }
+                else if (fortified[key] >= tyranical[key])
+                {
+                    score[key] += 20;
+                }
+            }
+        }
+        else if (affix[key] == 2 && !up)
+        {
+            if (affix == fortified)
+            {
+                fortified[key] -= 2;
+                if (fortified[key] >= tyranical[key])
+                {
+                    score[key] -= 60;
+                }
+                else if (fortified[key] < tyranical[key])
+                {
+                    score[key] -= 20;
+                }
+            }
+            else if (affix == tyranical)
+            {
+                tyranical[key] -= 2;
+                if (fortified[key] <= tyranical[key])
+                {
+                    score[key] -= 60;
+                }
+                else if (fortified[key] > tyranical[key])
+                {
+                    score[key] -= 20;
+                }
+            }
+        }
+        // when keys are !equal to 2
+        else if (up && affix[key] >= 2)
+        {
+            if (affix == fortified)
+            {
+                fortified[key]++;
+                if (fortified[key] > tyranical[key])
+                {
+                    score[key] += ((scoreFormula(fortified[key]) * 1.5) - (scoreFormula(fortified[key] - 1) * 1.5));
+                }
+                else if (fortified[key] <= tyranical[key])
+                {
+                    score[key] += ((scoreFormula(fortified[key]) * 0.5) - (scoreFormula(fortified[key] - 1) * 0.5));
+                }
+            }
+            else if (affix == tyranical)
+            {
+                tyranical[key]++;
+                if (fortified[key] < tyranical[key])
+                {
+                    score[key] += ((scoreFormula(tyranical[key]) * 1.5) - (scoreFormula(tyranical[key] - 1) * 1.5));
+                }
+                else if (fortified[key] >= tyranical[key])
+                {
+                    score[key] += ((scoreFormula(tyranical[key]) * 0.5) - (scoreFormula(tyranical[key] - 1) * 0.5));
+                }
+            }
+        }
+        else if (!up && affix[key] != 2)
+        {
+            if (affix == fortified)
+            {
+                fortified[key]--;
+                if (fortified[key] >= tyranical[key])
+                {
+                    score[key] -= ((scoreFormula(fortified[key] + 1) * 1.5) - (scoreFormula(fortified[key]) * 1.5));
+                }
+                else if (fortified[key] < tyranical[key])
+                {
+                    score[key] -= ((scoreFormula(fortified[key] + 1) * 0.5) - (scoreFormula(fortified[key]) * 0.5));
+                }
+            }
+            else if (affix == tyranical)
+            {
+                tyranical[key]--;
+                if (fortified[key] <= tyranical[key])
+                {
+                    score[key] -= ((scoreFormula(tyranical[key] + 1) * 1.5) - (scoreFormula(tyranical[key]) * 1.5));
+                }
+                else if (fortified[key] > tyranical[key])
+                {
+                    score[key] -= ((scoreFormula(tyranical[key] + 1) * 0.5) - (scoreFormula(tyranical[key]) * 0.5));
+                }
+            }
+        }
+        for (var i = 0; i < dungeonCount; i++)
+        {
+            totalScore += score[i];
+        }
+    }
+}
