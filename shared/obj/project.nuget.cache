@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8doYBup9dvDEZ9F62nWRy1UQXz0IESRSFrQqiaPxn+tkHoSs7SVIa7+bEm3XnZ70Dcj0KbkuVQ97LbCw3KF41Q==",
+  "dgSpecHash": "G57Z6XUI1WapSgJ4tez8bqIOTHJ5jEgJaSh08KXcs1EbfxJw8biID4OnFDyzTrUgAp2ZC0cA3tT292pPvCmQdQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mathi\\source\\repos\\blazor-mrmythical\\shared\\shared.csproj",
+  "projectFilePath": "C:\\Users\\mathi\\source\\repos\\frontend\\shared\\shared.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

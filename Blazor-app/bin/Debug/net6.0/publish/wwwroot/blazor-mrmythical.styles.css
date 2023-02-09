@@ -1,0 +1,50 @@
+/* /Shared/MainLayout.razor.rz.scp.css */
+.page[b-ztuokyogef] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-ztuokyogef] {
+    flex: 1;
+}
+
+.top-row[b-ztuokyogef] {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row[b-ztuokyogef]  a, .top-row[b-ztuokyogef]  .btn-link {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+        text-decoration: none;
+    }
+
+    .top-row[b-ztuokyogef]  a:hover, .top-row[b-ztuokyogef]  .btn-link:hover {
+        text-decoration: underline;
+    }
+
+    .top-row[b-ztuokyogef]  a:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 640.98px) {
+    .top-row:not(.auth)[b-ztuokyogef] {
+        display: none;
+    }
+
+    .top-row.auth[b-ztuokyogef] {
+        justify-content: space-between;
+    }
+
+    .top-row[b-ztuokyogef]  a, .top-row[b-ztuokyogef]  .btn-link {
+        margin-left: 0;
+    }
+}
+
+/* /Shared/NavMenu.razor.rz.scp.css */

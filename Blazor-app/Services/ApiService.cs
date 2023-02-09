@@ -3,6 +3,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 
 using shared.Model;
+using Services.Dungeons;
 
 namespace blazor_mrmythical.Data;
 
@@ -25,6 +26,24 @@ public class ApiService
         return await http.GetFromJsonAsync<GameClass[]>(url);
     }
 
+    public async Task<BestDungeons?> GetCharacterBest(string region, string realm, string name)
+    {
+        string url =
+            $"https://raider.io/api/v1/characters/profile?region={region}&realm={realm}&name={name}&fields=mythic_plus_best_runs";
+        return await http.GetFromJsonAsync<BestDungeons>(url);
+    }
+
+    public async Task<AlternateDungeons?> GetCharacterAlternate(
+        string region,
+        string realm,
+        string name
+    )
+    {
+        string url =
+            $"https://raider.io/api/v1/characters/profile?region={region}&realm={realm}&name={name}&fields=mythic_plus_alternate_runs";
+        return await http.GetFromJsonAsync<AlternateDungeons>(url);
+    }
+
     public async Task<Player> CreatePlayer(string playerName, int gameClassId)
     {
         string url = $"{baseAPI}player/";
@@ -38,6 +57,6 @@ public class ApiService
                 PropertyNameCaseInsensitive = true // Ignore case when matching JSON properties to C# properties
             }
         );
-        return newPlayer;
+        return newPlayer!;
     }
 }
