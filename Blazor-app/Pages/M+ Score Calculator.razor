@@ -17,7 +17,23 @@
         <button class="primary" @onclick="showHide">Manual Edit</button>
         <br />
         <br />
-        <button class="primary" @onclick="@(()=>GetCharacter("eu", "turalyon", "epichiche"))">Import Character</button>
+        <button class="primary" @onclick="showPopup">Import Character</button>
+        <div class=@popup>
+            <br />
+            <label for="fname">Navn:</label>
+            <br />
+            <input id="fname" name="fname">
+            <br />
+            <br />
+            <label for="lname">Efternavn:</label>
+            <br />
+            <input id="lname" name="lname" >
+            <br />
+            <br />
+            <button class="primary" @onclick="@(()=>GetCharacter("eu", "turalyo", "epichiche"))">@import</button>
+            <br />
+            <br />
+        </div>
         <br />
         <br />
         <table>
@@ -34,12 +50,11 @@
                     <td>
                         @if (show)
                         {
-                            
-                                <button class="arrow" @onclick="@(()=>editKey(key, fortifiedRuns, true))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-up" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">
+                                <button class="arrow" @onclick="@(()=>editKey(key, fortifiedRuns, tyrannicalRuns, true))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-up" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>                                 
                                 <polyline points="6 15 12 9 18 15"></polyline></svg></button>
 
-                                <button class="arrow" @onclick="@(()=>editKey(key, fortifiedRuns, false))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">                                 
+                                <button class="arrow" @onclick="@(()=>editKey(key, fortifiedRuns, tyrannicalRuns, false))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">                                 
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>                               
                                 <polyline points="6 9 12 15 18 9"></polyline></svg></button>
                             
@@ -47,10 +62,19 @@
                         <span class="keyLevel">
                         @fortifiedRuns[key].mythicLevel
                         </span>
-                        @if (show) {
+                        @if (!show){
+                            for (var i = 0; i < fortifiedRuns[key].numKeystoneUpgrades; i++)
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" id="icon-star" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="#e33b57" fill="#e33b57" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                                </svg>
+                            }
+                        }
+                        else if (show) {
                             foreach (var star in stars)
                             {
-                                <button class="star"><svg xmlns="http://www.w3.org/2000/svg" id="icon-star" @onmouseover="@(()=>mouseOver(key, star, fortifiedStars))" @onmouseout="@(()=>mouseOut(key, star, fortifiedStars, fortifiedRuns))" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="#e33b57" fill=@fortifiedStars[key][star] stroke-linecap="round" stroke-linejoin="round">
+                                <button class="star" @onclick="@(()=>editStars(key, star, fortifiedRuns, tyrannicalRuns))"><svg xmlns="http://www.w3.org/2000/svg" id="icon-star" @onmouseover="@(()=>mouseOver(key, star, fortifiedStars))" @onmouseout="@(()=>mouseOut(key, star, fortifiedStars, fortifiedRuns))" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="#e33b57" fill=@fortifiedStars[key][star] stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
                                 </svg></button>
@@ -60,12 +84,11 @@
                     <td>
                         @if (show)
                         {
-                            
-                                <button class="arrow" @onclick="@(()=>editKey(key, tyrannicalRuns, true))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-up" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">
+                                <button class="arrow" @onclick="@(()=>editKey(key, tyrannicalRuns, fortifiedRuns, true))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-up" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>                                 
                                 <polyline points="6 15 12 9 18 15"></polyline></svg></button>
 
-                                <button class="arrow" @onclick="@(()=>editKey(key, tyrannicalRuns, false))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">                                 
+                                <button class="arrow" @onclick="@(()=>editKey(key, tyrannicalRuns, fortifiedRuns, false))"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="18" height="18" stroke-width="2" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="5 8 14 8">                                 
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>                               
                                 <polyline points="6 9 12 15 18 9"cd></polyline></svg></button>
                             
@@ -73,11 +96,20 @@
                         <span class="keyLevel">
                         @tyrannicalRuns[key].mythicLevel
                         </span>
-                        @if (show) {
+                        @if (!show){
+                            for (var i = 0; i < tyrannicalRuns[key].numKeystoneUpgrades; i++)
+                            {
+                                <svg xmlns="http://www.w3.org/2000/svg" id="icon-star" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="#e33b57" fill="#e33b57" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                                </svg>
+                            }
+                        }
+                        else if (show) {
 
                             foreach (var star in stars)
                             {
-                                <button class="star"><svg xmlns="http://www.w3.org/2000/svg" id="icon-star" @onmouseover="@(()=>mouseOver(key, star, tyrannicalStars))" @onmouseout="@(()=>mouseOut(key, star, tyrannicalStars, tyrannicalRuns))" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="#e33b57" fill=@tyrannicalStars[key][star] stroke-linecap="round" stroke-linejoin="round">
+                                <button class="star" @onclick="@(()=>editStars(key, star, tyrannicalRuns, fortifiedRuns))"><svg xmlns="http://www.w3.org/2000/svg" id="icon-star" @onmouseover="@(()=>mouseOver(key, star, tyrannicalStars))" @onmouseout="@(()=>mouseOut(key, star, tyrannicalStars, tyrannicalRuns))" width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke="#e33b57" fill=@tyrannicalStars[key][star] stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
                                 </svg></button>
@@ -91,7 +123,7 @@
                 <td>Total Score</td>
                 <td class="right"></td>
                 <td class="right"></td>
-                <td class="right">@(fortifiedRuns.Select(r => r.score).Sum() + tyrannicalRuns.Select(r => r.score).Sum())</td>
+                <td class="right">@(Math.Round((fortifiedRuns.Select(r => r.score).Sum() + tyrannicalRuns.Select(r => r.score).Sum()) * 10) / 10)</td>
             </tr>
         </table>
     </div>
@@ -99,8 +131,39 @@
 </div>
 
 @code {
+    private string import = "Import Character";
+
+    private string popup = "popupInactive";
+
+    private void showPopup()
+    {
+        popup = "popupActive";
+    }
+
     string[][] fortifiedStars = new string[8][];
     string[][] tyrannicalStars = new string[8][];
+
+    private void editStars(int key, int star, List<Run> runs, List<Run> oppositeRuns)
+    {
+        runs[key].numKeystoneUpgrades = star + 1;
+        double timingBest = runs[key].numKeystoneUpgrades - 1;
+        double timingAlternate = oppositeRuns[key].numKeystoneUpgrades - 1;
+        
+        if (runs[key].mythicLevel > oppositeRuns[key].mythicLevel)
+        {
+            runs[key].score = scoreFormula(runs[key].mythicLevel, timingBest) * 1.5;
+        }
+        else if (runs[key].mythicLevel == oppositeRuns[key].mythicLevel && runs[key].numKeystoneUpgrades > oppositeRuns[key].numKeystoneUpgrades)        
+        {
+            runs[key].score = scoreFormula(runs[key].mythicLevel, timingBest) * 1.5;
+            oppositeRuns[key].score = scoreFormula(oppositeRuns[key].mythicLevel, timingAlternate) * 0.5;
+        }
+        else
+        {
+            runs[key].score = scoreFormula(runs[key].mythicLevel, timingBest) * 0.5;
+            oppositeRuns[key].score = scoreFormula(oppositeRuns[key].mythicLevel, timingAlternate) * 1.5;
+        }
+    }
 
     private void mouseOver(int key, int star, string[][] stars)
     {
@@ -188,11 +251,14 @@
 
     private async void GetCharacter(string region, string realm, string name)
     {
+        import = "Loading Character...";
         resetRuns();
         scoreGoal = 0;
         bestDungeons = await apiService.GetCharacterBest(region, realm, name);
         alternateDungeons = await apiService.GetCharacterAlternate(region, realm, name);
 
+        popup = "popupInactive";
+        import = "Import Character";
         var tempIndexFor = 0;
 
         for (int i = 0; i < bestDungeons.mythic_plus_best_runs.Count; i++)
@@ -201,7 +267,7 @@
                 fortifiedRuns[tempIndexFor].dungeon = bestDungeons.mythic_plus_best_runs[i].dungeon;
                 fortifiedRuns[tempIndexFor].mythicLevel = bestDungeons.mythic_plus_best_runs[i].mythic_level;
                 fortifiedRuns[tempIndexFor].numKeystoneUpgrades = bestDungeons.mythic_plus_best_runs[i].num_keystone_upgrades;
-                fortifiedRuns[tempIndexFor].score = bestDungeons.mythic_plus_best_runs[i].score * 1.5;
+                fortifiedRuns[tempIndexFor].score = Math.Round(bestDungeons.mythic_plus_best_runs[i].score * 1.5 * 10) / 10;
                 tempIndexFor++;
             } 
         }
@@ -212,7 +278,7 @@
                 fortifiedRuns[tempIndexFor].dungeon = alternateDungeons.mythic_plus_alternate_runs[i].dungeon;
                 fortifiedRuns[tempIndexFor].mythicLevel = alternateDungeons.mythic_plus_alternate_runs[i].mythic_level;
                 fortifiedRuns[tempIndexFor].numKeystoneUpgrades = alternateDungeons.mythic_plus_alternate_runs[i].num_keystone_upgrades;
-                fortifiedRuns[tempIndexFor].score = alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5;
+                fortifiedRuns[tempIndexFor].score = Math.Round(alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5 * 10) / 10;
                 tempIndexFor++;
             } 
         }
@@ -227,7 +293,7 @@
                 tyrannicalRuns[j].dungeon = bestDungeons.mythic_plus_best_runs[i].dungeon;
                 tyrannicalRuns[j].mythicLevel = bestDungeons.mythic_plus_best_runs[i].mythic_level;
                 tyrannicalRuns[j].numKeystoneUpgrades = bestDungeons.mythic_plus_best_runs[i].num_keystone_upgrades;
-                tyrannicalRuns[j].score = bestDungeons.mythic_plus_best_runs[i].score * 1.5;
+                tyrannicalRuns[j].score = Math.Round(bestDungeons.mythic_plus_best_runs[i].score * 1.5 * 10) / 10;
             }
         }
 
@@ -241,7 +307,7 @@
                 tyrannicalRuns[j].dungeon = alternateDungeons.mythic_plus_alternate_runs[i].dungeon;
                 tyrannicalRuns[j].mythicLevel = alternateDungeons.mythic_plus_alternate_runs[i].mythic_level;
                 tyrannicalRuns[j].numKeystoneUpgrades = alternateDungeons.mythic_plus_alternate_runs[i].num_keystone_upgrades;
-                tyrannicalRuns[j].score = alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5;
+                tyrannicalRuns[j].score = Math.Round(alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5 * 10) / 10;
             }
         }
 
@@ -289,28 +355,33 @@
         StateHasChanged();
     }
 
-    private static double scoreFormula(int keyLevel)
+    private static double scoreFormula(int keyLevel, double star)
     {
+        star = star * 20;
         double baseScore;
-        if (keyLevel < 4)
+        if (keyLevel < 2)
         {
-            baseScore = ((6 + keyLevel) * 5);
-            return baseScore;
+            return 0;
+        }
+        else if (keyLevel < 4)
+        {
+            baseScore = ((6 + keyLevel) * 5) + ((star / 40) * 5);
+            return Math.Round(baseScore * 10) / 10;
         }
         else if (keyLevel < 7)
         {
-            baseScore = ((7 + keyLevel) * 5);
-            return baseScore;
+            baseScore = ((7 + keyLevel) * 5) + ((star / 40) * 5);
+            return Math.Round(baseScore * 10) / 10;
         }
         else if (keyLevel < 10)
         {
-            baseScore = ((8 + keyLevel) * 5);
-            return baseScore;
+            baseScore = ((8 + keyLevel) * 5) + ((star / 40) * 5);
+            return Math.Round(baseScore * 10) / 10;
         }
         else
         {
-            baseScore = (((keyLevel - 10) * 7) + 100);
-            return baseScore;
+            baseScore = (((keyLevel - 10) * 7) + 100) + ((star / 40) * 5);
+            return Math.Round(baseScore * 10) / 10;
         }
     }
 
@@ -320,9 +391,11 @@
             fortifiedRuns[i].dungeon = Convert.ToString(i + 1);
             fortifiedRuns[i].score = 0;
             fortifiedRuns[i].mythicLevel = 0;
+            fortifiedRuns[i].numKeystoneUpgrades = 1;
             tyrannicalRuns[i].dungeon = Convert.ToString(i + 1);
             tyrannicalRuns[i].score = 0;
             tyrannicalRuns[i].mythicLevel = 0;
+            tyrannicalRuns[i].numKeystoneUpgrades = 1;        
         }
     }
     private void calculateScore()
@@ -334,9 +407,7 @@
         {
             for (var i = 0; i < 50; i++)
             {
-
-
-                bestAndAlternate = Math.Round(scoreFormula(i) * 1.5 + scoreFormula(i) * 0.5);
+                bestAndAlternate = Math.Round(scoreFormula(i, 0) * 1.5 + scoreFormula(i, 0) * 0.5);
 
                 if (scorePerDungeon == bestAndAlternate)
                 {
@@ -352,49 +423,49 @@
                 }
                 else if (bestAndAlternate > scorePerDungeon)
                 {
-                    bestAndAlternate = Math.Round(scoreFormula(i - 1) * 1.5 + scoreFormula(i - 1) * 0.5);
+                    bestAndAlternate = Math.Round(scoreFormula(i - 1, 0) * 1.5 + scoreFormula(i - 1, 0) * 0.5);
                     var scoreDiff = Math.Round(scoreGoal - bestAndAlternate * dungeonCount);
 
                     for (var j = 0; j < dungeonCount; j++)
                     {
                         if (scoreDiff > 0)
                         {
-                            scoreDiff -= (scoreFormula(i) * 1.5) - (scoreFormula(i - 1) * 1.5);
+                            scoreDiff -= (scoreFormula(i, 0) * 1.5) - (scoreFormula(i - 1, 0) * 1.5);
                             fortifiedRuns[j].mythicLevel = i;
-                            fortifiedRuns[j].score = scoreFormula(i) * 1.5;
+                            fortifiedRuns[j].score = scoreFormula(i, 0) * 1.5;
                         }
                         else
                         {
                             fortifiedRuns[j].mythicLevel = i - 1;
-                            fortifiedRuns[j].score = scoreFormula(i - 1) * 1.5;
+                            fortifiedRuns[j].score = scoreFormula(i - 1, 0) * 1.5;
                         }
                     }
                     for (var j = 0; j < dungeonCount; j++)
                     {
                         if (scoreDiff > 0)
                         {
-                            scoreDiff -= (scoreFormula(i) * 0.5) - (scoreFormula(i - 1) * 0.5);
+                            scoreDiff -= (scoreFormula(i, 0) * 0.5) - (scoreFormula(i - 1, 0) * 0.5);
                             tyrannicalRuns[j].mythicLevel = i;
-                            tyrannicalRuns[j].score = Math.Round((scoreFormula(i) * 0.5) * 10) / 10;
+                            tyrannicalRuns[j].score = scoreFormula(i, 0) * 0.5;
                         }
-                        else if (scoreDiff / ((scoreFormula(i) * 0.5) - (scoreFormula(i - 1) * 0.5)) <= j - dungeonCount)
+                        else if (scoreDiff / ((scoreFormula(i, 0) * 0.5) - (scoreFormula(i - 1, 0) * 0.5)) <= j - dungeonCount)
                         {
                             if (i != 3)
                             {
-                                scoreDiff += (scoreFormula(i) * 0.5) - (scoreFormula(i - 1) * 0.5);
+                                scoreDiff += (scoreFormula(i, 0) * 0.5) - (scoreFormula(i - 1, 0) * 0.5);
                                 tyrannicalRuns[j].mythicLevel = i - 2;
-                                tyrannicalRuns[j].score = Math.Round((scoreFormula(i - 2) * 0.5) * 10) / 10;
+                                tyrannicalRuns[j].score = scoreFormula(i - 2, 0) * 0.5;
                             }
                             else
                             {
                                 tyrannicalRuns[j].mythicLevel = i - 1;
-                                tyrannicalRuns[j].score = Math.Round((scoreFormula(i - 1) * 0.5) * 10) / 10;
+                                tyrannicalRuns[j].score = scoreFormula(i - 1, 0) * 0.5;
                             }
                         }
                         else
                         {
                             tyrannicalRuns[j].mythicLevel = i - 1;
-                            tyrannicalRuns[j].score = Math.Round((scoreFormula(i - 1) * 0.5) * 10) / 10;
+                            tyrannicalRuns[j].score = scoreFormula(i - 1, 0) * 0.5;
                         }
                     }
                     break;
@@ -423,113 +494,47 @@
         }
     }
 
-    private void editKey(int key, List<Run> affix, bool up)
+    private void editKey(int key, List<Run> affix, List<Run> otherAffix, bool up)
     {
+        double timing = affix[key].numKeystoneUpgrades - 1;
+        double otherTiming = otherAffix[key].numKeystoneUpgrades - 1;
         // When keys are below or equal to 2
-        if (affix[key].mythicLevel < 2)
-        {
-            if (up && affix == fortifiedRuns)
+        if (affix[key].mythicLevel < 2 && up)
+        {   
+            affix[key].mythicLevel = 2;
+            if (affix[key].numKeystoneUpgrades >= otherAffix[key].numKeystoneUpgrades || affix[key].mythicLevel > otherAffix[key].mythicLevel)
             {
-                fortifiedRuns[key].mythicLevel += 2;
-                if (fortifiedRuns[key].mythicLevel > tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score += 60;
-                }
-                else if (fortifiedRuns[key].mythicLevel <= tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score += 20;
-                }
+                affix[key].score = scoreFormula(affix[key].mythicLevel, timing) * 1.5;
+                otherAffix[key].score = scoreFormula(otherAffix[key].mythicLevel, otherTiming) * 0.5;
             }
-            else if (up && affix == tyrannicalRuns)
-            {
-                tyrannicalRuns[key].mythicLevel += 2;
-                if (fortifiedRuns[key].mythicLevel < tyrannicalRuns[key].mythicLevel)
-                {
-                    tyrannicalRuns[key].score += 60;
-                }
-                else if (fortifiedRuns[key].mythicLevel >= tyrannicalRuns[key].mythicLevel)
-                {
-                    tyrannicalRuns[key].score += 20;
-                }
+            else {
+                affix[key].score = scoreFormula(affix[key].mythicLevel, timing) * 0.5;
+                otherAffix[key].score = scoreFormula(otherAffix[key].mythicLevel, otherTiming) * 1.5;
             }
         }
         else if (affix[key].mythicLevel == 2 && !up)
         {
-            if (affix == fortifiedRuns)
-            {
-                fortifiedRuns[key].mythicLevel -= 2;
-                if (fortifiedRuns[key].mythicLevel >= tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score -= 60;
-                }
-                else if (fortifiedRuns[key].mythicLevel < tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score -= 20;
-                }
-            }
-            else if (affix == tyrannicalRuns)
-            {
-                tyrannicalRuns[key].mythicLevel -= 2;
-                if (fortifiedRuns[key].mythicLevel <= tyrannicalRuns[key].mythicLevel)
-                {
-                    tyrannicalRuns[key].score -= 60;
-                }
-                else if (fortifiedRuns[key].mythicLevel > tyrannicalRuns[key].mythicLevel)
-                {
-                    tyrannicalRuns[key].score -= 20;
-                }
-            }
+            affix[key].mythicLevel = 0;
+            affix[key].score = 0;
+            otherAffix[key].score = scoreFormula(otherAffix[key].mythicLevel, otherTiming) * 1.5;
         }
         // when keys are !equal to 2
-        else if (up && affix[key].mythicLevel >= 2)
+        else if (affix[key].mythicLevel >= 2)
         {
-            if (affix == fortifiedRuns)
-            {
-                fortifiedRuns[key].mythicLevel++;
-                if (fortifiedRuns[key].mythicLevel > tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score += ((scoreFormula(fortifiedRuns[key].mythicLevel) * 1.5) - (scoreFormula(fortifiedRuns[key].mythicLevel - 1) * 1.5));
-                }
-                else if (fortifiedRuns[key].mythicLevel <= tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score += ((scoreFormula(fortifiedRuns[key].mythicLevel) * 0.5) - (scoreFormula(fortifiedRuns[key].mythicLevel - 1) * 0.5));
-                }
+            if (up){
+                affix[key].mythicLevel++;
             }
-            else if (affix == tyrannicalRuns)
-            {
-                tyrannicalRuns[key].mythicLevel++;
-                if (fortifiedRuns[key].mythicLevel < tyrannicalRuns[key].mythicLevel)
-                {
-                    tyrannicalRuns[key].score += ((scoreFormula(tyrannicalRuns[key].mythicLevel) * 1.5) - (scoreFormula(tyrannicalRuns[key].mythicLevel - 1) * 1.5));
-                }
-                else if (fortifiedRuns[key].mythicLevel >= tyrannicalRuns[key].mythicLevel)
-                {
-                    tyrannicalRuns[key].score += ((scoreFormula(tyrannicalRuns[key].mythicLevel) * 0.5) - (scoreFormula(tyrannicalRuns[key].mythicLevel - 1) * 0.5));
-                }
+            else {
+                affix[key].mythicLevel--;
             }
-        }
-        else if (!up && affix[key].mythicLevel != 2)
-        {
-            if (affix == fortifiedRuns)
+            if (affix[key].numKeystoneUpgrades >= otherAffix[key].numKeystoneUpgrades || affix[key].mythicLevel > otherAffix[key].mythicLevel)
             {
-                fortifiedRuns[key].mythicLevel--;
-                if (fortifiedRuns[key].mythicLevel >= tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score -= ((scoreFormula(fortifiedRuns[key].mythicLevel + 1) * 1.5) - (scoreFormula(fortifiedRuns[key].mythicLevel) * 1.5));
-                }
+                affix[key].score = scoreFormula(affix[key].mythicLevel, timing) * 1.5;
+                otherAffix[key].score = scoreFormula(otherAffix[key].mythicLevel, otherTiming) * 0.5;
             }
-         
-            else if (affix == tyrannicalRuns)
-            {
-                tyrannicalRuns[key].mythicLevel--;
-                if (fortifiedRuns[key].mythicLevel <= tyrannicalRuns[key].mythicLevel)
-                {
-                    tyrannicalRuns[key].score -= ((scoreFormula(tyrannicalRuns[key].mythicLevel + 1) * 1.5) - (scoreFormula(tyrannicalRuns[key].mythicLevel) * 1.5));
-                }
-                else if (fortifiedRuns[key].mythicLevel > tyrannicalRuns[key].mythicLevel)
-                {
-                    fortifiedRuns[key].score -= ((scoreFormula(tyrannicalRuns[key].mythicLevel + 1) * 0.5) - (scoreFormula(tyrannicalRuns[key].mythicLevel) * 0.5));
-                }
+            else {
+                affix[key].score = scoreFormula(affix[key].mythicLevel, timing) * 0.5;
+                otherAffix[key].score = scoreFormula(otherAffix[key].mythicLevel, otherTiming) * 1.5;
             }
         }
     }

@@ -28,7 +28,7 @@ public class Dungeons
                     mythicLevel = 0,
                     clearTime = 0,
                     parTime = 0,
-                    numKeystoneUpgrades = 0,
+                    numKeystoneUpgrades = 1,
                     score = 0
                 }
             );
@@ -39,7 +39,7 @@ public class Dungeons
                     mythicLevel = 0,
                     clearTime = 0,
                     parTime = 0,
-                    numKeystoneUpgrades = 0,
+                    numKeystoneUpgrades = 1,
                     score = 0
                 }
             );

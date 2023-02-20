@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mathi\\source\\repos\\frontend\\shared\\shared.csproj": {}
+    "C:\\Users\\mathi\\source\\Mr-Mythical\\shared\\shared.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mathi\\source\\repos\\frontend\\shared\\shared.csproj": {
+    "C:\\Users\\mathi\\source\\Mr-Mythical\\shared\\shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mathi\\source\\repos\\frontend\\shared\\shared.csproj",
+        "projectUniqueName": "C:\\Users\\mathi\\source\\Mr-Mythical\\shared\\shared.csproj",
         "projectName": "shared",
-        "projectPath": "C:\\Users\\mathi\\source\\repos\\frontend\\shared\\shared.csproj",
+        "projectPath": "C:\\Users\\mathi\\source\\Mr-Mythical\\shared\\shared.csproj",
         "packagesPath": "C:\\Users\\mathi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mathi\\source\\repos\\frontend\\shared\\obj\\",
+        "outputPath": "C:\\Users\\mathi\\source\\Mr-Mythical\\shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mathi\\AppData\\Roaming\\NuGet\\NuGet.Config",

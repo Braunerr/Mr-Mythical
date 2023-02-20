@@ -11,29 +11,29 @@ build_property.EnableTrimAnalyzer = true
 build_property.IncludeAllContentForSelfExtract = 
 build_property.RootNamespace = blazor-mrmythical
 build_property.RootNamespace = blazor-mrmythical
-build_property.ProjectDir = C:\Users\mathi\source\repos\frontend\Blazor-app\
+build_property.ProjectDir = C:\Users\mathi\source\Mr-Mythical\Blazor-app\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\mathi\source\repos\frontend\Blazor-app
+build_property.MSBuildProjectDirectory = C:\Users\mathi\source\Mr-Mythical\Blazor-app
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/mathi/source/repos/frontend/Blazor-app/App.razor]
+[C:/Users/mathi/source/Mr-Mythical/Blazor-app/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/frontend/Blazor-app/Pages/M+ Score Calculator.razor]
+[C:/Users/mathi/source/Mr-Mythical/Blazor-app/Pages/M+ Score Calculator.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTSsgU2NvcmUgQ2FsY3VsYXRvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/frontend/Blazor-app/_Imports.razor]
+[C:/Users/mathi/source/Mr-Mythical/Blazor-app/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/mathi/source/repos/frontend/Blazor-app/Shared/MainLayout.razor]
+[C:/Users/mathi/source/Mr-Mythical/Blazor-app/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ztuokyogef
 
-[C:/Users/mathi/source/repos/frontend/Blazor-app/Shared/NavMenu.razor]
+[C:/Users/mathi/source/Mr-Mythical/Blazor-app/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-4cuxg686nl
