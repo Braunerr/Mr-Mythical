@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 
 using shared.Model;
@@ -9,6 +10,8 @@ namespace blazor_mrmythical.Data;
 
 public class ApiService
 {
+    public string errorMessage;
+
     private readonly HttpClient http;
     private readonly IConfiguration configuration;
     private readonly string baseAPI = "";
@@ -30,7 +33,16 @@ public class ApiService
     {
         string url =
             $"https://raider.io/api/v1/characters/profile?region={region}&realm={realm}&name={name}&fields=mythic_plus_best_runs";
-        return await http.GetFromJsonAsync<BestDungeons>(url);
+        try
+        {
+            var response = await http.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<BestDungeons>();
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public async Task<AlternateDungeons?> GetCharacterAlternate(
@@ -41,7 +53,16 @@ public class ApiService
     {
         string url =
             $"https://raider.io/api/v1/characters/profile?region={region}&realm={realm}&name={name}&fields=mythic_plus_alternate_runs";
-        return await http.GetFromJsonAsync<AlternateDungeons>(url);
+        try
+        {
+            var response = await http.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadFromJsonAsync<AlternateDungeons>();
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public async Task<Player> CreatePlayer(string playerName, int gameClassId)

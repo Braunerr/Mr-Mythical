@@ -192,6 +192,29 @@ li a:hover,
     padding: 10px;
 }
 
+.radio-input {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+}
+
+.icon-x {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.api-credit {
+    color: rgb(129, 129, 129);
+    font-size: 12px;
+    text-align: center;
+    font-style: italic;
+}
+
+.credit-link {
+    color: rgb(129, 129, 129);
+}
+
 /*Blazor Defaults*/
 
 .valid.modified:not([type="checkbox"]) {

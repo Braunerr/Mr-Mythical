@@ -2,6 +2,7 @@
 @using blazor_mrmythical.Data;
 @using Services.Dungeons;
 @inject ApiService apiService
+@inject IJSRuntime JsRuntime
 
 <PageTitle>Mr. Mythical</PageTitle>
 
@@ -18,21 +19,50 @@
         <br />
         <br />
         <button class="primary" @onclick="showPopup">Import Character</button>
+        <!-- Add popup as a component -->
         <div class=@popup>
+
+            <button class="arrow" @onclick="@(() => popup = "popupInactive")">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon-x" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#e33b57" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+            <form @onsubmit="enter">
             <br />
-            <label for="fname">Navn:</label>
+            <label>Region:</label>
             <br />
-            <input id="fname" name="fname">
+            <input class="radio-input" type="radio" id="CN" name="selector" checked="@(region == "CN")" @onclick="@(() => region = "CN")">
+            <label for="CN">CN</label>
+            <br />
+            <input class="radio-input" type="radio" id="EU" name="selector" checked="@(region == "EU")" @onclick="@(() => region = "EU")">
+            <label for="EU">EU</label>
+            <br />
+            <input class="radio-input" type="radio" id="KR" name="selector" checked="@(region == "KR")" @onclick="@(() => region = "KR")">
+            <label for="KR">KR</label>
+            <br />
+            <input class="radio-input" type="radio" id="TW" name="selector" checked="@(region == "TW")" @onclick="@(() => region = "TW")">
+            <label for="TW">TW</label>
+            <br />
+            <input class="radio-input" type="radio" id="US" name="selector" checked="@(region == "US")" @onclick="@(() => region = "US")">
+            <label for="US">US</label>
             <br />
             <br />
-            <label for="lname">Efternavn:</label>
+            <label for="server">Server:</label>
             <br />
-            <input id="lname" name="lname" >
-            <br />
-            <br />
-            <button class="primary" @onclick="@(()=>GetCharacter("eu", "turalyo", "epichiche"))">@import</button>
+            <input id="server" name="server" @bind-value="server">
             <br />
             <br />
+            <label for="name">Characther Name:</label>
+            <br />
+            <input id="name" name="name" @bind-value="character">
+            <br />
+            <br />
+            <button class="primary">@import</button>
+            <br />
+            <p class="api-credit">Character Import Powered By Raider.io</p>
+            </form>
         </div>
         <br />
         <br />
@@ -127,10 +157,18 @@
             </tr>
         </table>
     </div>
-
+    <p class="api-credit">Made by Epicice-Turalyon EU</p>
+    <p class="api-credit">Support development of the site on <a class="credit-link" href="https://patreon.com/mrmythical" target="_blank">Patreon</a></p>
 </div>
 
 @code {
+    private void enter(){
+        GetCharacter(region, server, character);
+    }
+    private string? region;
+    private string? server;
+    private string? character;
+
     private string import = "Import Character";
 
     private string popup = "popupInactive";
@@ -249,110 +287,127 @@
         }
     }    
 
-    private async void GetCharacter(string region, string realm, string name)
+    private async void GetCharacter(string regionVar, string realm, string name)
     {
-        import = "Loading Character...";
-        resetRuns();
-        scoreGoal = 0;
-        bestDungeons = await apiService.GetCharacterBest(region, realm, name);
-        alternateDungeons = await apiService.GetCharacterAlternate(region, realm, name);
-
-        popup = "popupInactive";
-        import = "Import Character";
-        var tempIndexFor = 0;
-
-        for (int i = 0; i < bestDungeons.mythic_plus_best_runs.Count; i++)
+        var best = await apiService.GetCharacterBest(regionVar, realm, name);
+        var alternate = await apiService.GetCharacterAlternate(regionVar, realm, name);
+        if (regionVar == null || realm == null || name == null)
         {
-            if (bestDungeons.mythic_plus_best_runs[i].affixes[0].name == "Fortified") {
-                fortifiedRuns[tempIndexFor].dungeon = bestDungeons.mythic_plus_best_runs[i].dungeon;
-                fortifiedRuns[tempIndexFor].mythicLevel = bestDungeons.mythic_plus_best_runs[i].mythic_level;
-                fortifiedRuns[tempIndexFor].numKeystoneUpgrades = bestDungeons.mythic_plus_best_runs[i].num_keystone_upgrades;
-                fortifiedRuns[tempIndexFor].score = Math.Round(bestDungeons.mythic_plus_best_runs[i].score * 1.5 * 10) / 10;
-                tempIndexFor++;
-            } 
-        }
-
-        for (int i = 0; i < alternateDungeons.mythic_plus_alternate_runs.Count; i++)
+            
+        } else 
         {
-            if (alternateDungeons.mythic_plus_alternate_runs[i].affixes[0].name == "Fortified") {
-                fortifiedRuns[tempIndexFor].dungeon = alternateDungeons.mythic_plus_alternate_runs[i].dungeon;
-                fortifiedRuns[tempIndexFor].mythicLevel = alternateDungeons.mythic_plus_alternate_runs[i].mythic_level;
-                fortifiedRuns[tempIndexFor].numKeystoneUpgrades = alternateDungeons.mythic_plus_alternate_runs[i].num_keystone_upgrades;
-                fortifiedRuns[tempIndexFor].score = Math.Round(alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5 * 10) / 10;
-                tempIndexFor++;
-            } 
-        }
-
-        for (int i = 0; i < bestDungeons.mythic_plus_best_runs.Count; i++)
-        {
-            if (bestDungeons.mythic_plus_best_runs[i].affixes[0].name == "Tyrannical") {
-                int j = 0;
-                while (bestDungeons.mythic_plus_best_runs[i].dungeon != fortifiedRuns[j].dungeon) {
-                    j++;
-                }
-                tyrannicalRuns[j].dungeon = bestDungeons.mythic_plus_best_runs[i].dungeon;
-                tyrannicalRuns[j].mythicLevel = bestDungeons.mythic_plus_best_runs[i].mythic_level;
-                tyrannicalRuns[j].numKeystoneUpgrades = bestDungeons.mythic_plus_best_runs[i].num_keystone_upgrades;
-                tyrannicalRuns[j].score = Math.Round(bestDungeons.mythic_plus_best_runs[i].score * 1.5 * 10) / 10;
-            }
-        }
-
-        for (int i = 0; i < alternateDungeons.mythic_plus_alternate_runs.Count; i++)
-        {
-            if (alternateDungeons.mythic_plus_alternate_runs[i].affixes[0].name == "Tyrannical") {
-                int j = 0;
-                while (alternateDungeons.mythic_plus_alternate_runs[i].dungeon != fortifiedRuns[j].dungeon) {
-                    j++;
-                }
-                tyrannicalRuns[j].dungeon = alternateDungeons.mythic_plus_alternate_runs[i].dungeon;
-                tyrannicalRuns[j].mythicLevel = alternateDungeons.mythic_plus_alternate_runs[i].mythic_level;
-                tyrannicalRuns[j].numKeystoneUpgrades = alternateDungeons.mythic_plus_alternate_runs[i].num_keystone_upgrades;
-                tyrannicalRuns[j].score = Math.Round(alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5 * 10) / 10;
-            }
-        }
-
-        int n = dungeonCount;
-        for (var i = 0; i < n - 1; i++)
-        {
-            for (var j = 0; j < n - i - 1; j++)
+            import = "Loading Character...";    
+            if (best is BestDungeons bestDungeons)
             {
-                double combinedCurrent = tyrannicalRuns[j].score + fortifiedRuns[j].score;
-                double combinedNext = tyrannicalRuns[j + 1].score + fortifiedRuns[j + 1].score;
-                    
-                if (combinedCurrent < combinedNext){
-                    Run currentFor = fortifiedRuns[j];
-                    Run currentTyr = tyrannicalRuns[j];
+                resetRuns();
+                scoreGoal = 0;
+                bestDungeons = best;
+                alternateDungeons = alternate;
 
-                    fortifiedRuns[j] = fortifiedRuns[j + 1];
-                    tyrannicalRuns[j] = tyrannicalRuns[j + 1];
+                popup = "popupInactive";
+                import = "Import Character";
+                var tempIndexFor = 0;
 
-                    fortifiedRuns[j + 1] = currentFor;
-                    tyrannicalRuns[j + 1] = currentTyr;
+                for (int i = 0; i < bestDungeons.mythic_plus_best_runs.Count; i++)
+                {
+                    if (bestDungeons.mythic_plus_best_runs[i].affixes[0].name == "Fortified") {
+                        fortifiedRuns[tempIndexFor].dungeon = bestDungeons.mythic_plus_best_runs[i].dungeon;
+                        fortifiedRuns[tempIndexFor].mythicLevel = bestDungeons.mythic_plus_best_runs[i].mythic_level;
+                        fortifiedRuns[tempIndexFor].numKeystoneUpgrades = bestDungeons.mythic_plus_best_runs[i].num_keystone_upgrades;
+                        fortifiedRuns[tempIndexFor].score = Math.Round(bestDungeons.mythic_plus_best_runs[i].score * 1.5 * 10) / 10;
+                        tempIndexFor++;
+                    } 
                 }
+
+                for (int i = 0; i < alternateDungeons.mythic_plus_alternate_runs.Count; i++)
+                {
+                    if (alternateDungeons.mythic_plus_alternate_runs[i].affixes[0].name == "Fortified") {
+                        fortifiedRuns[tempIndexFor].dungeon = alternateDungeons.mythic_plus_alternate_runs[i].dungeon;
+                        fortifiedRuns[tempIndexFor].mythicLevel = alternateDungeons.mythic_plus_alternate_runs[i].mythic_level;
+                        fortifiedRuns[tempIndexFor].numKeystoneUpgrades = alternateDungeons.mythic_plus_alternate_runs[i].num_keystone_upgrades;
+                        fortifiedRuns[tempIndexFor].score = Math.Round(alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5 * 10) / 10;
+                        tempIndexFor++;
+                    } 
+                }
+
+                for (int i = 0; i < bestDungeons.mythic_plus_best_runs.Count; i++)
+                {
+                    if (bestDungeons.mythic_plus_best_runs[i].affixes[0].name == "Tyrannical") {
+                        int j = 0;
+                        while (bestDungeons.mythic_plus_best_runs[i].dungeon != fortifiedRuns[j].dungeon) {
+                            j++;
+                        }
+                        tyrannicalRuns[j].dungeon = bestDungeons.mythic_plus_best_runs[i].dungeon;
+                        tyrannicalRuns[j].mythicLevel = bestDungeons.mythic_plus_best_runs[i].mythic_level;
+                        tyrannicalRuns[j].numKeystoneUpgrades = bestDungeons.mythic_plus_best_runs[i].num_keystone_upgrades;
+                        tyrannicalRuns[j].score = Math.Round(bestDungeons.mythic_plus_best_runs[i].score * 1.5 * 10) / 10;
+                    }
+                }
+
+                for (int i = 0; i < alternateDungeons.mythic_plus_alternate_runs.Count; i++)
+                {
+                    if (alternateDungeons.mythic_plus_alternate_runs[i].affixes[0].name == "Tyrannical") {
+                        int j = 0;
+                        while (alternateDungeons.mythic_plus_alternate_runs[i].dungeon != fortifiedRuns[j].dungeon) {
+                            j++;
+                        }
+                        tyrannicalRuns[j].dungeon = alternateDungeons.mythic_plus_alternate_runs[i].dungeon;
+                        tyrannicalRuns[j].mythicLevel = alternateDungeons.mythic_plus_alternate_runs[i].mythic_level;
+                        tyrannicalRuns[j].numKeystoneUpgrades = alternateDungeons.mythic_plus_alternate_runs[i].num_keystone_upgrades;
+                        tyrannicalRuns[j].score = Math.Round(alternateDungeons.mythic_plus_alternate_runs[i].score * 0.5 * 10) / 10;
+                    }
+                }
+
+                int n = dungeonCount;
+                for (var i = 0; i < n - 1; i++)
+                {
+                    for (var j = 0; j < n - i - 1; j++)
+                    {
+                        double combinedCurrent = tyrannicalRuns[j].score + fortifiedRuns[j].score;
+                        double combinedNext = tyrannicalRuns[j + 1].score + fortifiedRuns[j + 1].score;
+                            
+                        if (combinedCurrent < combinedNext){
+                            Run currentFor = fortifiedRuns[j];
+                            Run currentTyr = tyrannicalRuns[j];
+
+                            fortifiedRuns[j] = fortifiedRuns[j + 1];
+                            tyrannicalRuns[j] = tyrannicalRuns[j + 1];
+
+                            fortifiedRuns[j + 1] = currentFor;
+                            tyrannicalRuns[j + 1] = currentTyr;
+                        }
+                    }
+                }
+
+                for (var i = 0; i < dungeonCount; i++){
+                    for (var j = 0; j < 3; j++)
+                    {
+                        if (j >= tyrannicalRuns[i].numKeystoneUpgrades)
+                        {
+                            tyrannicalStars[i][j] = "none";
+                        } else
+                        {
+                            tyrannicalStars[i][j] = "#e33b57";
+                        }
+                        if (j >= fortifiedRuns[i].numKeystoneUpgrades)
+                        {
+                            fortifiedStars[i][j] = "none";
+                        } else
+                        {
+                            fortifiedStars[i][j] = "#e33b57";
+                        }
+                        
+                    }
+                }
+                StateHasChanged();
+                region = null;
+                server = null;
+                character = null;
+            } else if (best == null){
+                import = "Import Character";
+                await JsRuntime.InvokeVoidAsync("alert", "Something Went Wrong Check Spelling And Try Again"); // Alert
             }
         }
-
-        for (var i = 0; i < dungeonCount; i++){
-            for (var j = 0; j < 3; j++)
-            {
-                if (j >= tyrannicalRuns[i].numKeystoneUpgrades)
-                {
-                    tyrannicalStars[i][j] = "none";
-                } else
-                {
-                    tyrannicalStars[i][j] = "#e33b57";
-                }
-                if (j >= fortifiedRuns[i].numKeystoneUpgrades)
-                {
-                    fortifiedStars[i][j] = "none";
-                } else
-                {
-                    fortifiedStars[i][j] = "#e33b57";
-                }
-                
-            }
-        }
-        StateHasChanged();
     }
 
     private static double scoreFormula(int keyLevel, double star)
